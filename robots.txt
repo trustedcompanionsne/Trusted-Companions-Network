@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://trustedcompanionsnortheast.co.uk/sitemap.xml
