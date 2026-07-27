@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trusted Companions North East — Companionship & Everyday Support, North East England</title>
+<meta name="description" content="Trusted local companions providing reliable companionship, practical support and family reassurance across the North East of England.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+  :root{
+    --ink: #22302C;
+    --ink-soft: #45564F;
+    --teal: #2A6B68;
+    --teal-dark: #1F504E;
+    --teal-pale: #E4EEEC;
+    --bg: #F1F4EF;
+    --white: #FFFFFF;
+    --gold: #C68A2E;
+    --gold-pale: #F5E8D2;
+    --moss: #6F8F6B;
+    --line: rgba(34,48,44,0.14);
+    --shadow: 0 10px 30px rgba(34,48,44,0.08);
+    --radius: 14px;
+    --maxw: 1180px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+
+  body{
+    margin:0;
+    font-family:'Public Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    color:var(--ink);
+    background:var(--bg);
+    font-size:17px;
+    line-height:1.6;
+  }
+
+  h1,h2,h3,h4{
+    font-family:'Fraunces', Georgia, serif;
+    color:var(--ink);
+    line-height:1.15;
+    margin:0 0 0.5em 0;
+    font-weight:600;
+  }
+  p{margin:0 0 1em 0;}
+  ul{margin:0;padding:0;list-style:none;}
+  a{color:inherit;}
+  img,svg{display:block;max-width:100%;}
+
+  .skip-link{
+    position:absolute; left:-999px; top:0;
+    background:var(--ink); color:var(--white);
+    padding:14px 20px; z-index:200; border-radius:0 0 8px 0;
+    font-weight:600;
+  }
+  .skip-link:focus{left:0;}
+
+  :focus-visible{
+    outline:3px solid var(--gold);
+    outline-offset:3px;
+  }
+
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 24px;}
+  section{padding:88px 0;}
+  @media (max-width:640px){ section{padding:56px 0;} }
+
+  .eyebrow{
+    font-family:'Public Sans', sans-serif;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.09em;
+    font-size:0.8rem;
+    color:var(--teal-dark);
+    margin-bottom:14px;
+    display:inline-block;
+  }
+
+  /* ---------- Header ---------- */
+  header{
+    position:sticky; top:0; z-index:100;
+    background:rgba(241,244,239,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-row{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 24px; max-width:var(--maxw); margin:0 auto;
+    gap:16px;
+  }
+  .brand{display:flex; align-items:center; gap:10px; text-decoration:none; flex-shrink:0;}
+  .brand-mark{width:38px;height:38px;flex-shrink:0;}
+  .brand-text{font-family:'Fraunces', serif; font-weight:600; font-size:1.05rem; line-height:1.2; color:var(--ink);}
+  .brand-text span{display:block; font-family:'Public Sans',sans-serif; font-weight:600; font-size:0.68rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--teal-dark);}
+
+  nav.primary-nav{display:flex; gap:28px; align-items:center;}
+  nav.primary-nav a{text-decoration:none; font-weight:600; font-size:0.95rem; color:var(--ink-soft); padding:6px 2px; border-bottom:2px solid transparent;}
+  nav.primary-nav a:hover{color:var(--teal-dark); border-bottom-color:var(--teal);}
+
+  .header-actions{display:flex; align-items:center; gap:10px;}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'Public Sans', sans-serif; font-weight:700; font-size:0.95rem;
+    padding:12px 22px; border-radius:999px; border:2px solid transparent;
+    text-decoration:none; cursor:pointer; white-space:nowrap;
+    transition:transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .btn:hover{transform:translateY(-1px);}
+  .btn-primary{background:var(--teal-dark); color:var(--white);}
+  .btn-primary:hover{box-shadow:0 8px 18px rgba(31,80,78,0.3);}
+  .btn-gold{background:var(--gold); color:var(--ink);}
+  .btn-gold:hover{box-shadow:0 8px 18px rgba(198,138,46,0.35);}
+  .btn-outline{background:transparent; color:var(--teal-dark); border-color:var(--teal-dark);}
+  .btn-outline:hover{background:var(--teal-pale);}
+  .btn-sm{padding:9px 16px; font-size:0.85rem;}
+
+  .nav-toggle{
+    display:none; background:none; border:2px solid var(--line); border-radius:10px;
+    width:44px; height:44px; align-items:center; justify-content:center; cursor:pointer;
+  }
+  .nav-toggle svg{width:20px;height:20px;}
+
+  @media (max-width:900px){
+    nav.primary-nav{
+      display:none;
+      position:absolute; top:100%; left:0; right:0;
+      background:var(--white); border-bottom:1px solid var(--line);
+      flex-direction:column; align-items:stretch; gap:0; padding:8px 24px 16px;
+      box-shadow:var(--shadow);
+    }
+    nav.primary-nav.open{display:flex;}
+    nav.primary-nav a{padding:12px 0; border-bottom:1px solid var(--line);}
+    .nav-toggle{display:inline-flex;}
+    .header-actions .btn-outline{display:none;}
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{padding:72px 0 64px; position:relative;}
+  .hero-grid{display:grid; grid-template-columns:1.15fr 0.85fr; gap:56px; align-items:center;}
+  @media (max-width:900px){ .hero-grid{grid-template-columns:1fr;} }
+  .hero h1{font-size:clamp(2.1rem, 4.2vw, 3.3rem); max-width:16ch;}
+  .hero .lede{font-size:1.15rem; color:var(--ink-soft); max-width:46ch;}
+  .hero-ctas{display:flex; gap:14px; flex-wrap:wrap; margin-top:28px;}
+  .hero-trust{
+    margin-top:36px; display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+    font-size:0.88rem; color:var(--ink-soft);
+  }
+  .hero-trust .dot{color:var(--gold);}
+
+  .quick-facts{
+    margin-top:32px; display:flex; flex-direction:column; gap:12px;
+  }
+  .quick-fact{
+    display:flex; align-items:center; gap:12px; font-size:0.95rem; color:var(--ink);
+  }
+  .quick-fact svg{width:26px; height:26px; flex-shrink:0;}
+  .quick-fact a{color:var(--teal-dark); font-weight:700; text-decoration:underline;}
+  .hero-areas{font-size:0.85rem; color:var(--ink-soft); margin-top:18px; margin-bottom:0;}
+
+  .explainer-section{padding:0 0 64px;}
+  .explainer-card{
+    background:var(--teal-dark); color:var(--white); border-radius:20px;
+    padding:40px 44px; box-shadow:var(--shadow);
+  }
+  .explainer-card h2{color:var(--white); font-size:1.6rem; max-width:26ch;}
+  .explainer-card p{color:rgba(255,255,255,0.85); font-size:1rem; max-width:74ch;}
+  .explainer-card p:last-child{margin-bottom:0;}
+  .explainer-card em{color:#F5E8D2; font-style:normal; font-weight:700;}
+  .explainer-card a{color:#F5E8D2; font-weight:700;}
+  @media (max-width:640px){ .explainer-card{padding:30px 26px;} }
+
+  .hero-art{display:flex; flex-direction:column; gap:20px;}
+  .hero-photo{
+    width:100%; display:block; border-radius:20px; box-shadow:var(--shadow);
+    aspect-ratio:4/3; object-fit:cover; object-position:center 30%;
+  }
+  .path-card{
+    background:var(--white); border-radius:var(--radius); box-shadow:var(--shadow);
+    padding:28px; position:relative;
+  }
+  .path-card h3{font-size:1.1rem; margin-bottom:18px;}
+  .visit-row{display:flex; gap:14px; align-items:flex-start; padding:12px 0; border-top:1px dashed var(--line);}
+  .visit-row:first-of-type{border-top:none;}
+  .visit-dot{width:34px;height:34px;border-radius:50%; background:var(--teal-pale); display:flex; align-items:center; justify-content:center; flex-shrink:0;}
+  .visit-dot svg{width:18px;height:18px;}
+  .visit-row strong{display:block; font-size:0.95rem;}
+  .visit-row span{font-size:0.85rem; color:var(--ink-soft);}
+
+  /* ---------- Values strip ---------- */
+  .values{background:var(--white); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .values-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:32px 28px;}
+  @media (max-width:900px){ .values-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:520px){ .values-grid{grid-template-columns:1fr;} }
+  .value-item{display:flex; gap:14px; align-items:flex-start;}
+  .value-icon{width:44px;height:44px; border-radius:12px; background:var(--teal-pale); display:flex; align-items:center; justify-content:center; flex-shrink:0;}
+  .value-icon svg{width:22px;height:22px;}
+  .value-item h4{font-size:1rem; margin-bottom:4px; font-family:'Public Sans',sans-serif; font-weight:700;}
+  .value-item p{font-size:0.9rem; color:var(--ink-soft); margin:0;}
+
+  /* ---------- Section headers ---------- */
+  .section-head{max-width:640px; margin-bottom:48px;}
+  .section-head h2{font-size:clamp(1.7rem, 3vw, 2.3rem);}
+  .section-head p{color:var(--ink-soft); font-size:1.05rem;}
+  .center{margin-left:auto; margin-right:auto; text-align:center;}
+
+  /* ---------- Who we support ---------- */
+  .support-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
+  @media (max-width:900px){ .support-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:640px){ .support-grid{grid-template-columns:1fr;} }
+  .support-card{
+    background:var(--white); border-radius:var(--radius); padding:28px;
+    border:1px solid var(--line); box-shadow:var(--shadow);
+    display:flex; flex-direction:column; height:100%;
+  }
+  .support-card .icon-badge{width:48px;height:48px;border-radius:12px;background:var(--gold-pale);display:flex;align-items:center;justify-content:center;margin-bottom:16px;}
+  .support-card .icon-badge svg{width:24px;height:24px;}
+  .support-card h3{font-size:1.15rem;}
+  .support-card p{color:var(--ink-soft); font-size:0.94rem; flex-grow:1;}
+  .tag-list{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+  .tag-list span{
+    font-size:0.78rem; background:var(--bg); border:1px solid var(--line);
+    padding:5px 10px; border-radius:999px; color:var(--ink-soft);
+  }
+
+  /* ---------- Services ---------- */
+  .services-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
+  @media (max-width:900px){ .services-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:640px){ .services-grid{grid-template-columns:1fr;} }
+  .service-card{
+    background:var(--white); border-radius:var(--radius); padding:26px;
+    border:1px solid var(--line);
+  }
+  .service-card .icon-badge{width:44px;height:44px;border-radius:10px;background:var(--teal-pale);display:flex;align-items:center;justify-content:center;margin-bottom:14px;}
+  .service-card .icon-badge svg{width:22px;height:22px;}
+  .service-card h3{font-size:1.05rem;}
+  .service-card p{color:var(--ink-soft); font-size:0.92rem; margin-bottom:10px;}
+  .service-card .meta{font-size:0.8rem; color:var(--teal-dark); font-weight:700;}
+
+  /* ---------- Visit ticket cards (signature element) ---------- */
+  .plans-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:28px; margin-bottom:20px;}
+  @media (max-width:960px){ .plans-grid{grid-template-columns:1fr; max-width:440px; margin-left:auto; margin-right:auto;} }
+
+  .ticket{
+    position:relative;
+    background:var(--white);
+    border-radius:16px;
+    box-shadow:var(--shadow);
+    padding:30px 28px 28px;
+    isolation:isolate;
+  }
+  .ticket.popular{border:2px solid var(--gold); transform:translateY(-8px);}
+  @media (max-width:960px){ .ticket.popular{transform:none;} }
+  .ticket-stamp{
+    position:absolute; top:-12px; right:26px;
+    background:var(--gold); color:var(--ink); font-weight:800; font-size:0.72rem;
+    letter-spacing:0.06em; text-transform:uppercase; padding:6px 14px; border-radius:999px;
+    box-shadow:0 4px 10px rgba(198,138,46,0.35);
+  }
+  .ticket h3{font-size:1.25rem; margin-bottom:2px;}
+  .ticket .price{display:flex; align-items:baseline; gap:6px; margin:10px 0 4px;}
+  .ticket .price .num{font-family:'Fraunces',serif; font-size:2.1rem; font-weight:600; color:var(--teal-dark);}
+  .ticket .price .per{color:var(--ink-soft); font-size:0.9rem;}
+  .ticket .summary{font-size:0.88rem; color:var(--ink-soft); margin-bottom:16px;}
+  .ticket-perf{
+    border-top:2px dashed var(--line);
+    position:relative;
+    margin:16px 0;
+  }
+  .ticket-perf::before,.ticket-perf::after{
+    content:""; position:absolute; top:-11px; width:22px; height:22px; border-radius:50%;
+    background:var(--bg); border:1px solid var(--line);
+  }
+  .ticket-perf::before{left:-30px;}
+  .ticket-perf::after{right:-30px;}
+  .ticket ul.features{margin-bottom:22px;}
+  .ticket ul.features li{
+    display:flex; gap:10px; align-items:flex-start; font-size:0.9rem; padding:6px 0; color:var(--ink);
+  }
+  .ticket ul.features li svg{width:16px;height:16px; margin-top:3px; flex-shrink:0; color:var(--teal);}
+  .ticket .btn{width:100%; justify-content:center;}
+
+  .plans-note{
+    background:var(--teal-pale); border-radius:var(--radius); padding:22px 26px;
+    font-size:0.92rem; color:var(--ink-soft); display:flex; gap:14px; align-items:flex-start;
+  }
+  .plans-note svg{width:22px;height:22px; flex-shrink:0; color:var(--teal-dark); margin-top:2px;}
+
+  /* rates table */
+  .rates-table{width:100%; border-collapse:collapse; margin-top:44px; background:var(--white); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow);}
+  .rates-table caption{text-align:left; font-family:'Fraunces',serif; font-size:1.2rem; padding:20px 24px 8px; font-weight:600;}
+  .rates-table th, .rates-table td{padding:14px 24px; text-align:left; font-size:0.92rem; border-top:1px solid var(--line);}
+  .rates-table thead th{background:var(--bg); font-weight:700; border-top:none;}
+  .rates-table td.rate{font-weight:700; color:var(--teal-dark); white-space:nowrap;}
+
+  /* build your own plan */
+  .builder-card{
+    display:grid; grid-template-columns:1.3fr 1fr; gap:0; border-radius:20px; overflow:hidden; box-shadow:var(--shadow);
+  }
+  @media (max-width:800px){ .builder-card{grid-template-columns:1fr;} }
+  .builder-controls{background:var(--bg); padding:36px 40px;}
+  .builder-controls .form-row{margin-bottom:26px;}
+  .builder-controls label{font-weight:700; font-size:0.92rem; margin-bottom:8px; display:block;}
+  .builder-controls input[type="range"]{
+    width:100%; accent-color:var(--teal-dark); height:6px; cursor:pointer;
+  }
+  .builder-value{margin-top:8px; font-size:0.9rem; color:var(--ink-soft); font-weight:600;}
+  .builder-radios{display:flex; flex-direction:column; gap:10px; margin-top:8px;}
+  .radio-pill{
+    display:flex; justify-content:space-between; align-items:center; gap:10px;
+    background:var(--white); border:1.5px solid var(--line); border-radius:10px;
+    padding:12px 16px; font-size:0.9rem; font-weight:600; cursor:pointer; color:var(--ink);
+  }
+  .radio-pill input{margin-right:10px;}
+  .radio-pill span{color:var(--teal-dark); font-weight:700;}
+  .radio-pill:has(input:checked){border-color:var(--teal-dark); background:var(--teal-pale);}
+  .builder-summary{
+    background:var(--teal-dark); color:var(--white); padding:36px 40px;
+    display:flex; flex-direction:column; justify-content:center;
+  }
+  .builder-total{display:flex; align-items:baseline; gap:8px; margin:10px 0 12px;}
+  .builder-total span:first-child{font-family:'Fraunces',serif; font-size:2.6rem; font-weight:600; color:var(--white);}
+  .builder-total .per{color:rgba(255,255,255,0.75); font-size:1rem;}
+  #b-breakdown{color:rgba(255,255,255,0.8); font-size:0.9rem; margin-bottom:22px;}
+  .builder-summary .form-note{margin-top:14px; margin-bottom:0;}
+
+  /* packages */
+  .packages-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:24px;}
+  @media (max-width:800px){ .packages-grid{grid-template-columns:1fr;} }
+  .package-card{
+    background:var(--white); border-radius:var(--radius); padding:30px; border:1px solid var(--line); box-shadow:var(--shadow);
+  }
+  .package-card .from{color:var(--teal-dark); font-weight:700; font-family:'Fraunces',serif; font-size:1.4rem; margin-bottom:6px;}
+  .package-card h3{font-size:1.2rem;}
+  .package-card p{color:var(--ink-soft); font-size:0.94rem;}
+  .bespoke-banner{
+    margin-top:24px; background:var(--ink); color:var(--white); border-radius:var(--radius);
+    padding:30px; display:flex; justify-content:space-between; align-items:center; gap:24px; flex-wrap:wrap;
+  }
+  .bespoke-banner h3{color:var(--white); font-size:1.2rem;}
+  .bespoke-banner p{color:rgba(255,255,255,0.75); margin:0;}
+
+  /* how it works */
+  .steps{display:grid; grid-template-columns:repeat(4,1fr); gap:24px; counter-reset:step;}
+  @media (max-width:900px){ .steps{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:520px){ .steps{grid-template-columns:1fr;} }
+  .step{position:relative; padding-top:8px;}
+  .step .step-num{
+    font-family:'Fraunces',serif; font-size:2.4rem; color:var(--teal); opacity:0.35; font-weight:600; line-height:1;
+  }
+  .step h4{font-size:1.05rem; margin-top:4px;}
+  .step p{font-size:0.9rem; color:var(--ink-soft);}
+
+  /* trust */
+  .trust-section{background:var(--white); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .trust-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
+  @media (max-width:800px){ .trust-grid{grid-template-columns:1fr;} }
+  .trust-card{border:1px dashed var(--line); border-radius:var(--radius); padding:24px;}
+  .trust-card h4{font-size:1rem;}
+  .trust-card p{font-size:0.9rem; color:var(--ink-soft); margin:0;}
+  .placeholder-flag{
+    display:inline-block; margin-top:10px; font-size:0.74rem; font-weight:700;
+    color:var(--teal-dark); background:var(--teal-pale); padding:3px 9px; border-radius:6px;
+  }
+
+  /* area checker */
+  .area-checker{
+    background:var(--teal-dark); color:var(--white); border-radius:20px; padding:44px;
+    display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:center;
+  }
+  @media (max-width:800px){ .area-checker{grid-template-columns:1fr; padding:32px 24px;} }
+  .area-checker h2{color:var(--white); font-size:1.7rem;}
+  .area-checker p{color:rgba(255,255,255,0.78);}
+  .checker-form{display:flex; gap:10px; flex-wrap:wrap;}
+  .checker-form input{
+    flex:1; min-width:180px; padding:14px 16px; border-radius:10px; border:none; font-size:1rem;
+    font-family:'Public Sans',sans-serif;
+  }
+  #area-result{margin-top:14px; font-size:0.92rem; min-height:1.4em; font-weight:600;}
+  .area-list{display:flex; flex-wrap:wrap; gap:8px;}
+  .area-list span{background:rgba(255,255,255,0.12); padding:6px 12px; border-radius:999px; font-size:0.82rem;}
+
+  /* faqs */
+  .faq-list{max-width:800px; margin:0 auto;}
+  details{
+    background:var(--white); border:1px solid var(--line); border-radius:12px; padding:6px 22px; margin-bottom:12px;
+  }
+  summary{
+    cursor:pointer; font-weight:700; padding:16px 0; list-style:none; display:flex; justify-content:space-between; align-items:center; gap:16px;
+  }
+  summary::-webkit-details-marker{display:none;}
+  summary .chev{transition:transform 0.2s ease; flex-shrink:0;}
+  details[open] summary .chev{transform:rotate(180deg);}
+  details p{padding-bottom:18px; color:var(--ink-soft); margin:0;}
+
+  /* enquiry */
+  .enquiry-wrap{display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:start;}
+  @media (max-width:900px){ .enquiry-wrap{grid-template-columns:1fr;} }
+  .contact-card{background:var(--white); border-radius:var(--radius); padding:28px; border:1px solid var(--line); margin-bottom:16px;}
+  .contact-card h4{font-size:0.95rem; margin-bottom:6px;}
+  .contact-card a{color:var(--teal-dark); font-weight:700; text-decoration:none; font-size:1.1rem;}
+
+  form.enquiry{background:var(--white); border-radius:var(--radius); padding:30px; border:1px solid var(--line); box-shadow:var(--shadow);}
+  .form-row{margin-bottom:18px;}
+  .form-row label{display:block; font-weight:700; font-size:0.9rem; margin-bottom:6px;}
+  .form-row input, .form-row select, .form-row textarea{
+    width:100%; padding:12px 14px; border-radius:10px; border:1.5px solid var(--line);
+    font-family:'Public Sans',sans-serif; font-size:1rem; background:var(--bg); color:var(--ink);
+  }
+  .form-row input:focus, .form-row select:focus, .form-row textarea:focus{border-color:var(--teal);}
+  .form-two{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  @media (max-width:520px){ .form-two{grid-template-columns:1fr;} }
+  .form-note{font-size:0.82rem; color:var(--ink-soft); margin-top:4px;}
+  #form-success{
+    display:none; background:var(--teal-pale); border-radius:10px; padding:16px 18px; margin-top:16px; font-size:0.9rem;
+  }
+
+  /* coverage map */
+  .coverage-section{background:var(--white); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .coverage-layout{display:grid; grid-template-columns:1.3fr 1fr; gap:32px; align-items:start;}
+  @media (max-width:900px){ .coverage-layout{grid-template-columns:1fr;} }
+  #coverage-map{
+    height:460px; width:100%; border-radius:var(--radius); box-shadow:var(--shadow);
+    border:1px solid var(--line);
+  }
+  @media (max-width:640px){ #coverage-map{height:340px;} }
+  .leaflet-popup-content-wrapper{border-radius:10px; font-family:'Public Sans',sans-serif;}
+  .leaflet-popup-content{margin:12px 14px; font-size:0.9rem;}
+  .leaflet-popup-content strong{font-family:'Fraunces',serif; font-size:1rem;}
+  .map-legend{display:flex; align-items:center; gap:10px; margin-top:14px; font-size:0.85rem; color:var(--ink-soft);}
+  .map-legend .swatch{width:16px;height:16px;border-radius:4px; background:var(--teal); opacity:0.55; border:1.5px solid var(--teal-dark); flex-shrink:0;}
+  .coverage-side .checker-card{
+    background:var(--teal-dark); color:var(--white); border-radius:var(--radius); padding:26px;
+  }
+  .coverage-side .checker-card h3{color:var(--white); font-size:1.1rem;}
+  .coverage-side .checker-card p{color:rgba(255,255,255,0.78); font-size:0.9rem;}
+  .coverage-side .checker-form{display:flex; gap:8px; flex-wrap:wrap; margin-top:12px;}
+  .coverage-side .checker-form input{
+    flex:1; min-width:140px; padding:12px 14px; border-radius:10px; border:none; font-size:0.95rem;
+    font-family:'Public Sans',sans-serif;
+  }
+  #area-result{margin-top:12px; font-size:0.9rem; min-height:1.4em; font-weight:600; color:#F5E8D2;}
+  .coverage-side .area-list{display:flex; flex-wrap:wrap; gap:8px; margin-top:18px;}
+  .coverage-side .area-list span{
+    font-size:0.82rem; background:var(--bg); border:1px solid var(--line);
+    padding:6px 12px; border-radius:999px; color:var(--ink-soft);
+  }
+  .map-attribution-note{font-size:0.78rem; color:var(--ink-soft); margin-top:10px;}
+
+  /* footer */
+  footer{background:var(--ink); color:rgba(255,255,255,0.8); padding:56px 0 100px;}
+  .footer-grid{display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:36px;}
+  @media (max-width:800px){ .footer-grid{grid-template-columns:1fr 1fr;} }
+  @media (max-width:520px){ .footer-grid{grid-template-columns:1fr;} }
+  footer h4{color:var(--white); font-family:'Public Sans',sans-serif; font-size:0.9rem; margin-bottom:14px;}
+  footer a{text-decoration:none; color:rgba(255,255,255,0.75); font-size:0.9rem;}
+  footer li{margin-bottom:9px;}
+  footer .brand-text, footer .brand-text span{color:var(--white);}
+  .footer-bottom{
+    max-width:var(--maxw); margin:40px auto 0; padding:20px 24px 0; border-top:1px solid rgba(255,255,255,0.12);
+    font-size:0.8rem; color:rgba(255,255,255,0.55); display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+  }
+
+  /* sticky mobile action bar */
+  .mobile-bar{
+    display:none; position:fixed; bottom:0; left:0; right:0; z-index:150;
+    background:var(--white); border-top:1px solid var(--line); box-shadow:0 -6px 18px rgba(0,0,0,0.08);
+    padding:10px 16px; gap:10px;
+  }
+  .mobile-bar .btn{flex:1; justify-content:center;}
+  @media (max-width:640px){ .mobile-bar{display:flex;} body{padding-bottom:74px;} }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header>
+  <div class="nav-row">
+    <a class="brand" href="#top">
+      <svg class="brand-mark" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="17" cy="22" r="13" fill="#E4EEEC"/>
+        <circle cx="27" cy="22" r="13" fill="#C68A2E" fill-opacity="0.55"/>
+        <path d="M12 24c2 3 6 3 8 0M24 24c2 3 6 3 8 0" stroke="#1F504E" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <span class="brand-text">Trusted Companions North East<span>North East England</span></span>
+    </a>
+    <nav class="primary-nav" id="primary-nav">
+      <a href="#support">Who we support</a>
+      <a href="#services">Services</a>
+      <a href="#plans">Plans &amp; prices</a>
+      <a href="#coverage">Coverage map</a>
+      <a href="#faqs">FAQs</a>
+      <a href="#enquire">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <a class="btn btn-outline btn-sm" href="tel:07787242075">📞 07787 242075</a>
+      <a class="btn btn-primary btn-sm" href="#enquire">Enquire</a>
+      <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- HERO -->
+  <div id="top"></div>
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow">Companionship · Practical support · Peace of mind</span>
+        <h1>Many people don't need care. They just need a little help.</h1>
+        <p class="lede">Trusted Companions North East provides regular visits from the same familiar companion — helping people stay socially connected, confident, and independent in their own home, across the North East of England.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-gold" href="#enquire">Start with a free chat</a>
+          <a class="btn btn-outline" href="#plans">See membership plans</a>
+        </div>
+        <div class="quick-facts">
+          <div class="quick-fact">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#1F504E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/><path d="M8.5 13.5l2 2 4-4"/></svg>
+            <span>The <strong>same companion</strong>, every visit</span>
+          </div>
+          <div class="quick-fact">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#1F504E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+            <span>Booking arranged within <strong>24–48 hours</strong></span>
+          </div>
+          <div class="quick-fact">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#1F504E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0112 5.5 5.5 5.5 0 0121.5 12c-2.5 4.5-9.5 9-9.5 9z"/></svg>
+            <span><strong>Not a CQC-regulated care agency</strong> — <a href="#why-not-cqc">here's why</a></span>
+          </div>
+        </div>
+        <p class="hero-areas">Covering a 40-mile radius from Sunderland — Newcastle, Gateshead, Durham, Hartlepool, Darlington &amp; beyond.</p>
+      </div>
+      <div class="hero-art">
+        <img class="hero-photo" src="images/companionship-hero.jpg" alt="A companion sharing coffee and conversation with the person she supports at an outdoor table" loading="eager" fetchpriority="high">
+        <div class="path-card">
+          <h3>What a good week looks like</h3>
+          <div class="visit-row">
+            <div class="visit-dot"><svg viewBox="0 0 24 24" fill="none" stroke="#1F504E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l7 7 11-13"/></svg></div>
+            <div><strong>Tuesday, 10am</strong><span>Tea, a chat, and help replying to an email from the grandchildren.</span></div>
+          </div>
+          <div class="visit-row">
+            <div class="visit-dot"><svg viewBox="0 0 24 24" fill="none" stroke="#1F504E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l7 7 11-13"/></svg></div>
+            <div><strong>Thursday, 2pm</strong><span>A walk to the shops, then sorting the post together.</span></div>
+          </div>
+          <div class="visit-row">
+            <div class="visit-dot"><svg viewBox="0 0 24 24" fill="none" stroke="#1F504E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l7 7 11-13"/></svg></div>
+            <div><strong>Friday evening</strong><span>Family update sent — so everyone knows how the week went.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY NOT CQC-REGULATED -->
+  <section id="why-not-cqc" class="explainer-section">
+    <div class="wrap">
+      <div class="explainer-card">
+        <span class="eyebrow" style="color:#F5E8D2;">A different kind of support</span>
+        <h2>Why we're not a CQC-regulated care agency</h2>
+        <p>Many of the people we support don't need personal or medical care at all — they just need a little help: someone to visit regularly, share a cup of tea, get out to the shops, or feel less alone. That's companionship and practical support, not care in the regulated sense.</p>
+        <p>The Care Quality Commission (CQC) regulates <em>personal care</em> — things like washing, dressing, and medication. Because we don't provide any of that, we don't need to be CQC-registered, and we're not. What we do provide is trusted, consistent companionship that helps people stay connected, active, and independent. If someone's needs change and personal care becomes necessary, we'll help point you towards a regulated provider who can support that — read more in our <a href="#faqs">FAQs</a>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALUES -->
+  <section class="values">
+    <div class="wrap values-grid">
+      <div class="value-item">
+        <div class="value-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#1F504E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="3"/><circle cx="17" cy="15" r="3"/><path d="M6 20c0-2.2 1.6-4 4-4M14 20c0-2 1.5-3.6 3.4-3.9"/></svg></div>
+        <div><h4>Social connection</h4><p>Regular, genuine human contact that reduces loneliness.</p></div>
+      </div>
+      <div class="value-item">
+        <div class="value-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#1F504E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19c2-6 6-6 8-6s6 0 8 6"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <div><h4>Hobbies &amp; interests</h4><p>Encouraging the pastimes and passions that make each day enjoyable.</p></div>
+      </div>
+      <div class="value-item">
+        <div class="value-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#1F504E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></div>
+        <div><h4>Technology confidence</h4><p>Patient help with phones, tablets and video calls to stay in touch.</p></div>
+      </div>
+      <div class="value-item">
+        <div class="value-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#1F504E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l9-5 9 5-9 5-9-5z"/><path d="M3 8v8l9 5 9-5V8"/></svg></div>
+        <div><h4>Reassurance for families</h4><p>Regular updates and a dependable presence when you can't always be there.</p></div>
+      </div>
+      <div class="value-item">
+        <div class="value-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#1F504E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"/></svg></div>
+        <div><h4>Trust</h4><p>Genuine relationships, built on reliability and respect.</p></div>
+      </div>
+      <div class="value-item">
+        <div class="value-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#1F504E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3L4 14h7l-1 7 9-11h-7l1-7z"/></svg></div>
+        <div><h4>Independence</h4><p>Support built around what already matters to you.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHO WE SUPPORT -->
+  <section id="support">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Who we support</span>
+        <h2>People at different stages of life, all wanting to stay independent.</h2>
+        <p>We don't provide personal care or healthcare — our focus is companionship, practical everyday help, and the confidence that comes from not doing it all alone.</p>
+      </div>
+      <div class="support-grid">
+        <div class="support-card">
+          <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#C68A2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg></div>
+          <h3>Older adults</h3>
+          <p>Regular companionship and practical help for people who want to remain independent at home.</p>
+          <div class="tag-list"><span>Social visits</span><span>Walks</span><span>Shopping</span><span>Tech help</span></div>
+        </div>
+        <div class="support-card">
+          <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#C68A2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="6" r="3"/><path d="M5 21l2-9 3 3 2-2 2 2 3-3 2 9"/></svg></div>
+          <h3>Adults with disabilities</h3>
+          <p>Support to take part in everyday life on your own terms, with choice and independence front and centre.</p>
+          <div class="tag-list"><span>Community</span><span>Confidence</span><span>Routines</span></div>
+        </div>
+        <div class="support-card">
+          <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#C68A2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l8-8 8 8"/><path d="M6 10v10h12V10"/></svg></div>
+          <h3>Returning home after illness</h3>
+          <p>Rebuilding confidence and routines after a hospital stay, with practical help settling back in.</p>
+          <div class="tag-list"><span>Settling in</span><span>Shopping</span><span>Family updates</span></div>
+        </div>
+        <div class="support-card">
+          <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#C68A2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="10" r="3"/><circle cx="17" cy="10" r="3"/><path d="M4 19c.5-2.5 2.5-4 5-4s4.5 1.5 5 4M13 19c.4-2 2-3.5 4-3.8"/></svg></div>
+          <h3>People feeling lonely</h3>
+          <p>Regular, dependable human connection for anyone who'd value more company in their week.</p>
+          <div class="tag-list"><span>Conversation</span><span>Hobbies</span><span>Regular visits</span></div>
+        </div>
+        <div class="support-card">
+          <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#C68A2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l9-5 9 5-9 5-9-5z"/><path d="M3 8v8l9 5 9-5V8"/></svg></div>
+          <h3>Families</h3>
+          <p>Reassurance that someone reliable is nearby, with regular updates when they can't always be there.</p>
+          <div class="tag-list"><span>Updates</span><span>Reliability</span><span>Less worry</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" style="background:var(--white); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Our services</span>
+        <h2>Support that fits around a real life, not the other way round.</h2>
+      </div>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#1F504E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21v-7a8 8 0 0116 0v7"/><path d="M4 14h16"/></svg></div>
+          <h3>Companion visits</h3>
+          <p>Conversation, tea, games, hobbies, walks and local outings — built around each person's interests.</p>
+          <div class="meta">Minimum visit: 1.5 hours</div>
+        </div>
+        <div class="service-card">
+          <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#1F504E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h5"/></svg></div>
+          <h3>Practical support visits</h3>
+          <p>Shopping, paperwork, appointment prep, and general household organisation.</p>
+          <div class="meta">1.5–2 hours per visit</div>
+        </div>
+        <div class="service-card">
+          <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#1F504E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0112 5.5 5.5 5.5 0 0121.5 12c-2.5 4.5-9.5 9-9.5 9z"/></svg></div>
+          <h3>Family Peace of Mind</h3>
+          <p>Our signature service — a familiar companion, regular visits, and family updates after each one.</p>
+          <div class="meta">Priority booking included</div>
+        </div>
+        <div class="service-card">
+          <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#1F504E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></div>
+          <h3>Technology support</h3>
+          <p>Confidence with smartphones, tablets, video calling and staying connected with family.</p>
+          <div class="meta">Included in most plans</div>
+        </div>
+        <div class="service-card">
+          <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#1F504E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10l9-7 9 7"/><path d="M5 9v11h14V9"/></svg></div>
+          <h3>Home support visits</h3>
+          <p>Post-hospital support, decluttering, seasonal preparation, pet support and routine help.</p>
+          <div class="meta">Flexible, one-off or ongoing</div>
+        </div>
+        <div class="service-card">
+          <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#1F504E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1116 0 8 8 0 01-16 0z"/><path d="M9 12l2 2 4-4"/></svg></div>
+          <h3>Community involvement</h3>
+          <p>Getting out to clubs, groups and local events, with a companion alongside if it helps.</p>
+          <div class="meta">Part of every plan</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLANS -->
+  <section id="plans">
+    <div class="wrap">
+      <div class="section-head center">
+        <span class="eyebrow">Membership plans</span>
+        <h2>Straightforward monthly plans, no surprises.</h2>
+        <p>Every plan includes a familiar, regular companion. Choose based on how much time you'd like each month — you can change plans at any time.</p>
+      </div>
+
+      <div class="plans-grid">
+        <div class="ticket">
+          <h3>Reassurance Plan</h3>
+          <div class="price"><span class="num">£200</span><span class="per">/ month</span></div>
+          <p class="summary">Regular companionship and connection — 4 visits a month.</p>
+          <div class="ticket-perf"></div>
+          <ul class="features">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5 11-11"/></svg>4 visits / month, 1.5 hrs each (6 hrs total)</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5 11-11"/></svg>Companionship, conversation, walks, hobbies</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5 11-11"/></svg>Family updates where appropriate</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5 11-11"/></svg>Priority booking</li>
+          </ul>
+          <a href="#enquire" class="btn btn-outline">Choose this plan</a>
+        </div>
+
+        <div class="ticket popular">
+          <span class="ticket-stamp">Most popular</span>
+          <h3>Peace of Mind Plan</h3>
+          <div class="price"><span class="num">£260</span><span class="per">/ month</span></div>
+          <p class="summary">Regular companionship plus practical everyday support — 4 visits a month.</p>
+          <div class="ticket-perf"></div>
+          <ul class="features">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5 11-11"/></svg>4 visits / month, 2 hrs each (8 hrs total)</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5 11-11"/></svg>The same companion, every visit</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5 11-11"/></svg>Shopping, tech help, community activities</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5 11-11"/></svg>Family updates after visits</li>
+          </ul>
+          <a href="#enquire" class="btn btn-gold">Choose this plan</a>
+        </div>
+
+        <div class="ticket">
+          <h3>Complete Support Plan</h3>
+          <div class="price"><span class="num">£520</span><span class="per">/ month</span></div>
+          <p class="summary">Twice-weekly support for people needing more regular help — 8 visits a month.</p>
+          <div class="ticket-perf"></div>
+          <ul class="features">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5 11-11"/></svg>8 visits / month, 2 hrs each (16 hrs total)</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5 11-11"/></svg>Accompanied outings &amp; appointment support</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5 11-11"/></svg>Home organisation &amp; technology support</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5 11-11"/></svg>Enhanced family communication</li>
+          </ul>
+          <a href="#enquire" class="btn btn-outline">Choose this plan</a>
+        </div>
+      </div>
+
+      <div class="plans-note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
+        <div>Not sure which plan fits? Tell us a little about the support you're looking for and we'll recommend one — there's no pressure, and you can move between plans at any time. Or <a href="#build-plan" style="color:var(--teal-dark); font-weight:700;">build your own plan below</a>.</div>
+      </div>
+
+      <table class="rates-table">
+        <caption>Additional rates</caption>
+        <thead>
+          <tr><th>Service</th><th>When</th><th>Rate</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Additional visits</td><td>Standard hours, min. 1.5 hrs</td><td class="rate">£30 / hour</td></tr>
+          <tr><td>Enhanced availability</td><td>Evenings &amp; weekends</td><td class="rate">£33 / hour (+10%)</td></tr>
+          <tr><td>Bank holiday support</td><td>Bank holidays</td><td class="rate">£37.50 / hour (+25%)</td></tr>
+          <tr><td>Priority support</td><td>Short-notice requests, subject to availability</td><td class="rate">£37.50 / hour (+25%)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- BUILD YOUR OWN PLAN -->
+  <section id="build-plan" style="background:var(--white); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Something more tailored</span>
+        <h2>None of these quite right? Build your own.</h2>
+        <p>Every situation is a little different. Adjust the options below for a rough monthly estimate, then send it straight to us for a proper, no-obligation quote.</p>
+      </div>
+
+      <div class="builder-card">
+        <div class="builder-controls">
+          <div class="form-row">
+            <label for="b-visits">Visits per month</label>
+            <input type="range" id="b-visits" min="2" max="20" step="1" value="4">
+            <div class="builder-value"><span id="b-visits-out">4</span> visits / month</div>
+          </div>
+          <div class="form-row">
+            <label for="b-hours">Hours per visit</label>
+            <input type="range" id="b-hours" min="1.5" max="4" step="0.5" value="2">
+            <div class="builder-value"><span id="b-hours-out">2</span> hours / visit</div>
+          </div>
+          <div class="form-row">
+            <label>When would visits usually be?</label>
+            <div class="builder-radios">
+              <label class="radio-pill"><input type="radio" name="b-rate" value="30" checked> Standard weekday hours <span>£30/hr</span></label>
+              <label class="radio-pill"><input type="radio" name="b-rate" value="33"> Evenings &amp; weekends <span>£33/hr</span></label>
+              <label class="radio-pill"><input type="radio" name="b-rate" value="37.5"> Bank holiday / priority <span>£37.50/hr</span></label>
+            </div>
+          </div>
+        </div>
+        <div class="builder-summary">
+          <span class="eyebrow" style="color:#F5E8D2;">Your estimate</span>
+          <div class="builder-total"><span id="b-total">£240</span><span class="per">/ month</span></div>
+          <p id="b-breakdown">4 visits × 2 hours at £30/hr = 8 hours a month</p>
+          <a href="#enquire" class="btn btn-gold" id="b-quote-btn" style="width:100%; justify-content:center;">Send this to us for a proper quote</a>
+          <p class="form-note" style="color:rgba(255,255,255,0.7);">This is a rough guide only, not a final price. Our membership plans above may work out better value for regular, ongoing support.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PACKAGES -->
+  <section style="background:var(--white); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Premium packages</span>
+        <h2>For specific moments, not just ongoing plans.</h2>
+      </div>
+      <div class="packages-grid">
+        <div class="package-card">
+          <div class="from">From £240</div>
+          <h3>Hospital Homecoming Package</h3>
+          <p>Home preparation, shopping support, and companionship while someone rebuilds routines after a hospital stay. 4 visits, 2 hours each (8 hours total). Additional visits from £32/hour.</p>
+        </div>
+        <div class="package-card">
+          <div class="from">From £160</div>
+          <h3>Holiday Cover Package</h3>
+          <p>Scheduled visits and friendly check-ins while family are away, with updates so you have peace of mind from a distance. 4 visits, 1.5 hours each (6 hours total). Additional visits from £32/hour.</p>
+        </div>
+      </div>
+      <div class="bespoke-banner">
+        <div>
+          <h3>Need something bespoke?</h3>
+          <p>Extended holidays, recovery periods, or a temporary increase in support — we'll design a package around the situation.</p>
+        </div>
+        <a class="btn btn-gold" href="#enquire">Ask about a bespoke package</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">How it works</span>
+        <h2>Getting started is simple, and there's no obligation.</h2>
+        <p>Most enquiries are matched with a companion and booked in within <strong>24–48 hours</strong>.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <h4>Get in touch</h4>
+          <p>Call, or send an enquiry. We'll have a relaxed conversation about what support would help.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <h4>A friendly matching call</h4>
+          <p>We take time to understand interests and routines, so we can match the right companion — usually within 24–48 hours.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <h4>Meet your companion</h4>
+          <p>An introductory visit with the same person who'll visit every time after, so everyone feels comfortable first.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">04</div>
+          <h4>Regular visits &amp; updates</h4>
+          <p>The same familiar companion, on the schedule you choose, with updates for family where appropriate.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST & SAFETY -->
+  <section class="trust-section">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Trust &amp; safety</span>
+        <h2>What we'd want to know, if it were our own family.</h2>
+      </div>
+      <div class="trust-grid">
+        <div class="trust-card">
+          <h4>Vetted, trusted companions</h4>
+          <p>[Add detail: DBS/background check process, references and interview process for companions.]</p>
+          <span class="placeholder-flag">Confirm wording before launch</span>
+        </div>
+        <div class="trust-card">
+          <h4>Insured &amp; accountable</h4>
+          <p>[Add detail: public liability insurance, safeguarding policy, and who to contact with any concern.]</p>
+          <span class="placeholder-flag">Confirm wording before launch</span>
+        </div>
+        <div class="trust-card">
+          <h4>Not personal care</h4>
+          <p>We provide companionship and practical support only — never personal or medical care. If care needs change, we'll help signpost to the right regulated service.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COVERAGE MAP -->
+  <section class="coverage-section" id="coverage">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Where we work</span>
+        <h2>We cover a 40-mile radius from Sunderland.</h2>
+        <p>Sunderland is our home base, and we serve everywhere within roughly 40 miles of it — including Newcastle, Gateshead, Durham, Hartlepool, Darlington and the towns in between. Enter a postcode alongside the map for an exact check.</p>
+      </div>
+      <div class="coverage-layout">
+        <div>
+          <div id="coverage-map" style="min-height:460px;" role="img" aria-label="Map showing Trusted Companions North East's coverage area: a 40 mile radius centred on Sunderland, covering Newcastle, Gateshead, Durham, Hartlepool, Darlington and surrounding towns."></div>
+          <div class="map-legend"><span class="swatch"></span> 40-mile coverage radius from Sunderland</div>
+          <p class="map-attribution-note">Map tiles &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a>, data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors. Postcode lookup: <a href="https://postcodes.io" target="_blank" rel="noopener">postcodes.io</a> (Office for National Statistics data, Open Government Licence).</p>
+        </div>
+        <div class="coverage-side">
+          <div class="checker-card">
+            <h3>Not sure if we cover you?</h3>
+            <p>Enter your postcode and we'll check whether you're within our 40-mile radius of Sunderland.</p>
+            <form class="checker-form" id="area-form">
+              <label for="area-input" style="position:absolute;left:-9999px;">Postcode</label>
+              <input id="area-input" type="text" placeholder="e.g. NE1 4ST" autocomplete="postal-code">
+              <button type="submit" class="btn btn-gold btn-sm">Check</button>
+            </form>
+            <p id="area-result" role="status"></p>
+          </div>
+          <div class="area-list">
+            <span>Sunderland</span><span>Newcastle</span><span>Gateshead</span><span>Durham</span>
+            <span>South Shields</span><span>North Shields</span><span>Hartlepool</span><span>Darlington</span>
+            <span>Consett</span><span>Chester-le-Street</span><span>Peterlee</span><span>Morpeth</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQS -->
+  <section id="faqs">
+    <div class="wrap">
+      <div class="section-head center">
+        <span class="eyebrow">Frequently asked</span>
+        <h2>Questions families often ask us first.</h2>
+      </div>
+      <div class="faq-list">
+        <details>
+          <summary>Is this the same as personal care or home care?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+          <p>No. We don't provide personal care, medication support or healthcare of any kind. We focus entirely on companionship, practical everyday support and connection. If personal care needs arise, we'll help point you towards a regulated care provider.</p>
+        </details>
+        <details>
+          <summary>Are you regulated by the CQC?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+          <p>No, and that's by design rather than an oversight. The Care Quality Commission regulates personal and medical care — washing, dressing, medication and similar. Since we only provide companionship and practical everyday support, CQC registration doesn't apply to what we do. Many people who get in touch don't need regulated care at all; they just need a little help and regular company. If that ever changes, we'll help you find a regulated provider who can step in.</p>
+        </details>
+        <details>
+          <summary>Will we see the same companion every time?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+          <p>Yes — this is central to how we work. You're matched with one companion at the start, and it's the same familiar person for every visit afterwards, not a rotating rota of different faces. If a change is ever needed, we'll always talk it through with you first.</p>
+        </details>
+        <details>
+          <summary>How are companions matched to individuals?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+          <p>We start with a conversation about interests, routines and personality, then introduce a companion we think will be a good fit, with a low-pressure introductory visit before anything is booked in regularly. Most enquiries are matched and booked in within 24–48 hours.</p>
+        </details>
+        <details>
+          <summary>Can we pause or change our plan?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+          <p>Yes. Plans can be adjusted or paused with notice — just let your coordinator know. [Confirm exact notice period and cancellation policy for this page.]</p>
+        </details>
+        <details>
+          <summary>How do family updates work?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+          <p>Where appropriate and agreed with the person we're supporting, a short update can be shared after each visit — covering general wellbeing and how the visit went, never private health details.</p>
+        </details>
+        <details>
+          <summary>What areas do you cover?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+          <p>We're based in Sunderland and cover a 40-mile radius from there — including Newcastle, Gateshead, Durham, Hartlepool, Darlington and the towns in between. Check the map and postcode checker above, or get in touch directly if you're unsure.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ENQUIRE -->
+  <section id="enquire" style="background:var(--white); border-top:1px solid var(--line);">
+    <div class="wrap enquiry-wrap">
+      <div>
+        <span class="eyebrow">Get in touch</span>
+        <h2>Have a relaxed first conversation — no commitment.</h2>
+        <p style="color:var(--ink-soft);">Most families start with a phone call. Prefer to write instead? Fill in the form and we'll come back to you, usually within one working day.</p>
+
+        <div class="contact-card">
+          <h4>Call us</h4>
+          <a href="tel:07787242075">07787 242075</a>
+        </div>
+        <div class="contact-card">
+          <h4>Email us</h4>
+          <a href="mailto:trustedcompanionsne@outlook.com">trustedcompanionsne@outlook.com</a>
+        </div>
+      </div>
+
+      <form class="enquiry" id="enquiry-form">
+        <div class="form-row">
+          <label for="f-name">Your name</label>
+          <input id="f-name" type="text" required autocomplete="name">
+        </div>
+        <div class="form-two">
+          <div class="form-row">
+            <label for="f-phone">Phone number</label>
+            <input id="f-phone" type="tel" required autocomplete="tel">
+          </div>
+          <div class="form-row">
+            <label for="f-area">Town / postcode area</label>
+            <input id="f-area" type="text" autocomplete="postal-code">
+          </div>
+        </div>
+        <div class="form-row">
+          <label for="f-relation">Who is this enquiry for?</label>
+          <select id="f-relation">
+            <option>Myself</option>
+            <option>A parent or grandparent</option>
+            <option>A partner or spouse</option>
+            <option>Another family member</option>
+            <option>Someone I support professionally</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="f-plan">Plan you're interested in (optional)</label>
+          <select id="f-plan">
+            <option value="">Not sure yet — happy to discuss</option>
+            <option>Reassurance Plan — £200/month</option>
+            <option>Peace of Mind Plan — £260/month</option>
+            <option>Complete Support Plan — £520/month</option>
+            <option>Hospital Homecoming Package</option>
+            <option>Holiday Cover Package</option>
+            <option>A bespoke package</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="f-message">Tell us a little about the support you're looking for</label>
+          <textarea id="f-message" rows="4"></textarea>
+        </div>
+        <button type="submit" class="btn btn-gold" style="width:100%; justify-content:center;">Send enquiry</button>
+        <p class="form-note">By submitting, you agree to be contacted about your enquiry. We never share your details with third parties.</p>
+        <div id="form-success" role="status">Thank you — your enquiry has been received. We'll be in touch within one working day.</div>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap footer-grid">
+    <div>
+      <a class="brand" href="#top" style="margin-bottom:14px; display:inline-flex;">
+        <svg class="brand-mark" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="17" cy="22" r="13" fill="#E4EEEC" fill-opacity="0.25"/>
+          <circle cx="27" cy="22" r="13" fill="#C68A2E" fill-opacity="0.55"/>
+          <path d="M12 24c2 3 6 3 8 0M24 24c2 3 6 3 8 0" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <span class="brand-text">Trusted Companions North East<span>North East England</span></span>
+      </a>
+      <p style="max-width:34ch; font-size:0.9rem;">Reliable companionship and practical everyday support — helping people stay independent, connected, and confident.</p>
+    </div>
+    <div>
+      <h4>Explore</h4>
+      <ul>
+        <li><a href="#support">Who we support</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#plans">Plans &amp; prices</a></li>
+        <li><a href="#faqs">FAQs</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#how">How it works</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="tel:07787242075">07787 242075</a></li>
+        <li><a href="mailto:trustedcompanionsne@outlook.com">trustedcompanionsne@outlook.com</a></li>
+        <li>North East England</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Trusted Companions North East. We do not provide personal care or healthcare services.</span>
+  </div>
+</footer>
+
+<div class="mobile-bar">
+  <a class="btn btn-outline btn-sm" href="tel:07787242075">Call now</a>
+  <a class="btn btn-primary btn-sm" href="#enquire">Enquire</a>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+  // Coverage area: a 40-mile radius centred on Sunderland city centre.
+  const SUNDERLAND = { lat: 54.9069, lng: -1.3838 };
+  const COVERAGE_RADIUS_MILES = 40;
+  const COVERAGE_RADIUS_METERS = COVERAGE_RADIUS_MILES * 1609.34;
+
+  // Give the map an explicit starting position and zoom immediately —
+  // this is required before anything else. Without it, calls like
+  // fitBounds() can throw (since Leaflet has no reference point yet),
+  // which stops the tile layer from ever loading its first tiles.
+  const map = L.map('coverage-map', {
+    scrollWheelZoom: false,
+    center: [SUNDERLAND.lat, SUNDERLAND.lng],
+    zoom: 9
+  });
+
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 12,
+    minZoom: 7
+  }).addTo(map);
+
+  const coverageCircle = L.circle([SUNDERLAND.lat, SUNDERLAND.lng], {
+    radius: COVERAGE_RADIUS_METERS,
+    color: '#1F504E',
+    weight: 2,
+    fillColor: '#2A6B68',
+    fillOpacity: 0.25
+  }).addTo(map);
+  coverageCircle.bindPopup('40-mile coverage radius from Sunderland');
+
+  L.marker([SUNDERLAND.lat, SUNDERLAND.lng], {
+    title: 'Sunderland — our home base'
+  }).addTo(map).bindPopup('<strong>Sunderland</strong><br>Our home base');
+
+  // Safety net: if the map container didn't have its final size yet when
+  // Leaflet first measured it (a common cause of a blank grey map), force
+  // a re-check shortly after load and again once everything has settled.
+  // fitBounds is a nice-to-have refinement, so it's wrapped so it can
+  // never break the map if it fails.
+  function refreshMap() {
+    try {
+      map.invalidateSize();
+      map.fitBounds(coverageCircle.getBounds(), { padding: [18, 18] });
+    } catch (err) {
+      console.warn('Map bounds refresh skipped:', err);
+    }
+  }
+  setTimeout(refreshMap, 200);
+  window.addEventListener('load', refreshMap);
+
+  // Re-enable scroll zoom only once the user has clicked into the map,
+  // so scrolling the page doesn't get trapped by the map.
+  map.on('click', function () { map.scrollWheelZoom.enable(); });
+</script>
+
+<script>
+  // Mobile nav toggle
+  const navToggle = document.getElementById('nav-toggle');
+  const primaryNav = document.getElementById('primary-nav');
+  navToggle.addEventListener('click', () => {
+    const open = primaryNav.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  primaryNav.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      primaryNav.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // Area checker — looks up the postcode's real coordinates (free UK postcode
+  // API, no key required) and measures the distance from Sunderland.
+  const areaForm = document.getElementById('area-form');
+  const areaResult = document.getElementById('area-result');
+
+  function milesBetween(lat1, lon1, lat2, lon2) {
+    const R = 3958.8; // Earth radius in miles
+    const toRad = (d) => d * Math.PI / 180;
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+    const a = Math.sin(dLat / 2) ** 2 +
+      Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  }
+
+  async function lookupPostcode(raw) {
+    const cleaned = raw.replace(/\s+/g, '').toUpperCase();
+    // Try a full postcode first, then an outcode (e.g. "NE1") if that fails.
+    const attempts = [
+      `https://api.postcodes.io/postcodes/${encodeURIComponent(cleaned)}`,
+      `https://api.postcodes.io/outcodes/${encodeURIComponent(cleaned)}`
+    ];
+    for (const url of attempts) {
+      try {
+        const res = await fetch(url);
+        if (!res.ok) continue;
+        const data = await res.json();
+        if (data && data.result) {
+          const r = Array.isArray(data.result) ? data.result[0] : data.result;
+          if (r && r.latitude && r.longitude) return { lat: r.latitude, lng: r.longitude };
+        }
+      } catch (err) { /* try next */ }
+    }
+    return null;
+  }
+
+  areaForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const val = document.getElementById('area-input').value.trim();
+    if (!val) { areaResult.textContent = 'Pop in a postcode to check.'; return; }
+    areaResult.textContent = 'Checking…';
+    const coords = await lookupPostcode(val);
+    if (!coords) {
+      areaResult.textContent = "We couldn't find that postcode — try the full postcode (e.g. NE1 4ST), or get in touch and we'll check for you.";
+      areaResult.style.color = '#F5E8D2';
+      return;
+    }
+    const distance = milesBetween(SUNDERLAND.lat, SUNDERLAND.lng, coords.lat, coords.lng);
+    const within = distance <= COVERAGE_RADIUS_MILES;
+    areaResult.textContent = within
+      ? `Good news — that's about ${distance.toFixed(0)} miles from Sunderland, well within our coverage area.`
+      : `That's about ${distance.toFixed(0)} miles from Sunderland — just outside our usual ${COVERAGE_RADIUS_MILES}-mile radius. Get in touch and we'll let you know if we can still help.`;
+    areaResult.style.color = '#F5E8D2';
+  });
+
+  // Build-your-own-plan calculator
+  const bVisits = document.getElementById('b-visits');
+  const bHours = document.getElementById('b-hours');
+  const bVisitsOut = document.getElementById('b-visits-out');
+  const bHoursOut = document.getElementById('b-hours-out');
+  const bTotal = document.getElementById('b-total');
+  const bBreakdown = document.getElementById('b-breakdown');
+  const bQuoteBtn = document.getElementById('b-quote-btn');
+
+  function currentRateLabel(rate) {
+    if (rate === '33') return 'evenings & weekends (£33/hr)';
+    if (rate === '37.5') return 'bank holiday / priority (£37.50/hr)';
+    return 'standard weekday hours (£30/hr)';
+  }
+
+  function updateBuilder() {
+    const visits = parseInt(bVisits.value, 10);
+    const hours = parseFloat(bHours.value);
+    const rate = document.querySelector('input[name="b-rate"]:checked').value;
+    const totalHours = visits * hours;
+    const monthlyCost = totalHours * parseFloat(rate);
+
+    bVisitsOut.textContent = visits;
+    bHoursOut.textContent = hours;
+    bTotal.textContent = '£' + monthlyCost.toLocaleString('en-GB', { maximumFractionDigits: 0 });
+    bBreakdown.textContent = `${visits} visits × ${hours} hours at £${rate}/hr = ${totalHours} hours a month`;
+  }
+
+  [bVisits, bHours].forEach(el => el.addEventListener('input', updateBuilder));
+  document.querySelectorAll('input[name="b-rate"]').forEach(el => el.addEventListener('change', updateBuilder));
+  updateBuilder();
+
+  bQuoteBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    const visits = bVisits.value;
+    const hours = bHours.value;
+    const rate = document.querySelector('input[name="b-rate"]:checked').value;
+    const summary = `I'd like a quote based on a custom plan: ${visits} visits per month, ${hours} hours per visit, at ${currentRateLabel(rate)}. Estimated: ${bTotal.textContent}/month.`;
+
+    const planSelect = document.getElementById('f-plan');
+    const messageBox = document.getElementById('f-message');
+    if (planSelect) {
+      const bespokeOption = Array.from(planSelect.options).find(o => o.text.includes('bespoke'));
+      if (bespokeOption) planSelect.value = bespokeOption.value || bespokeOption.text;
+    }
+    if (messageBox) messageBox.value = summary;
+
+    document.getElementById('enquire').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (messageBox) messageBox.focus();
+  });
+
+  // Enquiry form — opens the visitor's email app with a pre-filled message
+  // addressed to us. No backend/server needed, but it does rely on the
+  // visitor having an email app configured on their device.
+  const ENQUIRY_EMAIL = 'trustedcompanionsne@outlook.com';
+  const enquiryForm = document.getElementById('enquiry-form');
+  const formSuccess = document.getElementById('form-success');
+
+  function fieldValue(id) {
+    const el = document.getElementById(id);
+    return el ? el.value.trim() : '';
+  }
+
+  enquiryForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const name = fieldValue('f-name');
+    const phone = fieldValue('f-phone');
+    const area = fieldValue('f-area');
+    const relation = fieldValue('f-relation');
+    const plan = fieldValue('f-plan');
+    const message = fieldValue('f-message');
+
+    const subject = `Enquiry from ${name || 'website visitor'}`;
+    const bodyLines = [
+      `Name: ${name}`,
+      `Phone: ${phone}`,
+      `Town / postcode area: ${area || 'Not given'}`,
+      `Who this is for: ${relation}`,
+      `Plan of interest: ${plan || 'Not specified'}`,
+      '',
+      'Message:',
+      message || '(No additional message)'
+    ];
+    const body = bodyLines.join('\n');
+
+    const mailtoLink = `mailto:${ENQUIRY_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailtoLink;
+
+    formSuccess.textContent = `Your email app should now be open with your enquiry ready to send to ${ENQUIRY_EMAIL} — just hit send there. If nothing opened, please email us directly or call 07787 242075.`;
+    formSuccess.style.display = 'block';
+    formSuccess.setAttribute('tabindex', '-1');
+    formSuccess.focus();
+    enquiryForm.reset();
+  });
+</script>
+
+</body>
+</html>
